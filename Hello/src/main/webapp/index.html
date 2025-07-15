@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>index.html</title>
+<link rel="stylesheet" href="css/custom.css" />
+<!-- 로딩할 css가 어디에 있는지 경로 추가 -->
+
+</head>
+<body>
+	<h1>인덱스 페이지 입니다</h1>
+	<ul>
+		<!-- 1. tomcat 상대 경로 -->
+		<li><a href="study.html">공부하기</a></li>
+		<!-- 2. tomcat 서버 내에서의 절대 경로 -->
+		<li><a href="/Hello/study.html">공부하기</a></li>
+		<!-- 3. web 에서의 절대 경로 -->
+		<li><a href="http://localhost:8888/Hello/study.html">공부하기</a></li>
+		<li><a href="sub/play.html">놀러가기</a></li>
+		<li><a href="/Hello/sub/play.html">놀러가기</a></li>
+		<li><a href="images/SouthKorea.png">South Korea 이미지</a></li>
+		<li><a href="/Hello/css/custom.css">css 보기</a></li>
+		<li><a href="/Hello/js/my-script.js">javascript 보기</a></li>
+		<li><a href="/Hello/fortune">오늘의 운세보기</a></li>
+		<li><a href="/Hello/members">회원목록</a></li>  <!-- //서블릿에서 db 내용을 html로 불러와 memberDto -->
+
+	</ul>
+
+	<br />
+	<img src="images/SouthKorea.png" alt="대한민국 국기" />
+</body>
+</html>
