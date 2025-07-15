@@ -26,7 +26,7 @@
 		<a href="${pageContext.request.contextPath }/member/insertform.jsp">회원 추가</a>
 		<h1>회원 목록입니다</h1>
 			<table class="table table-striped">
-				<thead class="table-dark">
+				<thead class="table-primary">
 					<tr>
 						<th>번호</th>
 						<th>이름</th>
