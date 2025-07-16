@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%
-	//세션에 "userName" 이라는 키값으로 저장된 값이 있는지 읽어와 본다
+	//세션에 "userName" 이라는 키값으로 저장된 값이 있는지 읽어와 본다 //session.setAttribute("userName",xxx)
 	String userName=(String)session.getAttribute("userName");
+	//session.setAttribute(object) 타입이라서 세션의 정보를 여러개의 키값으로 어떤 데이터든 담아둘 수 있다(list, )
 %>
 <!DOCTYPE html>
 <html>
@@ -24,6 +25,8 @@
 			<li><a href="${pageContext.request.contextPath }/member/list.jsp">회원목록</a></li>
 			<li><a href="${pageContext.request.contextPath }/book/list.jsp">책목록</a></li>
 			<li><a href="${pageContext.request.contextPath }/user/signup-form.jsp">회원가입</a></li>
+			<li><a href="${pageContext.request.contextPath }/user/loginform.jsp">로그인</a></li>
+			<li><a href="${pageContext.request.contextPath }/user/logout.jsp">로그아웃</a></li>
 		</ul>
 		<div id="carouselExampleIndicators" class="carousel slide">
 		  <div class="carousel-indicators">

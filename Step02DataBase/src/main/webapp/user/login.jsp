@@ -8,16 +8,19 @@
 	String userName=request.getParameter("userName");
 	String password=request.getParameter("password");
 	
-	//아이디 비밀번호가 유효한 정보인지 여부 
+	//아이디 비밀번호가 유효한 정보인지 여부 isValid 가 false=로긴 불가. true=로긴 가능.
 	boolean isValid=false;
 	//DB 에서 userName 을 이용해서 select 되는 정보가 있는지 select 해 본다.
+	//1. userName 이 null 이면, UserDto dto 이 자리에 null 이 들어가고,
 	UserDto dto=new UserDao().getByUserName(userName);
 	//만일 select 된 정보가 있다면(최소한 userName 은 존재한다는 것)
+	//2. null 이 아니라면, 비밀번호 비교해서 
 	if(dto != null){
 		//raw 비밀번호와 DB 에 저장된 암호화된 비밀번호를 비교해서 일치 하는지 확인한다.
 		// Bcrpt.checkpw(입력한 비밀번호, 암호화된 비밀번호)
+		// 3. 여기서 BCrypt.checkpw(password, dto.getPassword()); 에 true 가 return.
 		isValid = BCrypt.checkpw(password, dto.getPassword());
-	}
+	} //그래서, 여기서 isValid 가 return 되는데, false=로긴 불가. true=로긴 가능.
 	/*
 		만일 입력한 아이디와 비밀번호가 유효한 정보라면 로그인 처리를 한다
 		jsp 에서 기본 제공해주는 HttpSession 객체에 userName 을 저장한다
