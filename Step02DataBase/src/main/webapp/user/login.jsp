@@ -1,3 +1,4 @@
+<%@page import="java.net.URLEncoder"%>
 <%@page import="org.mindrot.jbcrypt.BCrypt"%>
 <%@page import="test.dao.UserDao"%>
 <%@page import="test.dto.UserDto"%>
@@ -7,20 +8,21 @@
 	//폼 전송되는 아이디와 비밀번호 추출하기
 	String userName=request.getParameter("userName");
 	String password=request.getParameter("password");
+	//로그인 후에 가야할 목적지 정보
+	String url=request.getParameter("url");
+	//로그인 실패를 대비해서 목적지 정보를 인코딩한 결과도 준비한다.
+	String encodedUrl=URLEncoder.encode(url, "UTF-8");		
 	
-	//아이디 비밀번호가 유효한 정보인지 여부 isValid 가 false=로긴 불가. true=로긴 가능.
+	//아이디 비밀번호가 유효한 정보인지 여부 
 	boolean isValid=false;
 	//DB 에서 userName 을 이용해서 select 되는 정보가 있는지 select 해 본다.
-	//1. userName 이 null 이면, UserDto dto 이 자리에 null 이 들어가고,
 	UserDto dto=new UserDao().getByUserName(userName);
 	//만일 select 된 정보가 있다면(최소한 userName 은 존재한다는 것)
-	//2. null 이 아니라면, 비밀번호 비교해서 
 	if(dto != null){
 		//raw 비밀번호와 DB 에 저장된 암호화된 비밀번호를 비교해서 일치 하는지 확인한다.
 		// Bcrpt.checkpw(입력한 비밀번호, 암호화된 비밀번호)
-		// 3. 여기서 BCrypt.checkpw(password, dto.getPassword()); 에 true 가 return.
 		isValid = BCrypt.checkpw(password, dto.getPassword());
-	} //그래서, 여기서 isValid 가 return 되는데, false=로긴 불가. true=로긴 가능.
+	}
 	/*
 		만일 입력한 아이디와 비밀번호가 유효한 정보라면 로그인 처리를 한다
 		jsp 에서 기본 제공해주는 HttpSession 객체에 userName 을 저장한다
@@ -48,12 +50,12 @@
 		<%if(isValid){ %>
 			<p>
 				<strong><%=userName %></strong> 회원님 로그인 되었습니다.
-				<a href="${pageContext.request.contextPath }/">인덱스 페이지로</a>
+				<a href="<%=url %>">확인</a>
 			</p>
 		<%}else{ %>
 			<p>
 				아이디 혹은 비밀번호가 틀려요!
-				<a href="loginform.jsp">다시 로그인</a>
+				<a href="loginform.jsp?url=<%=encodedUrl %>">다시 로그인</a>
 			</p>
 		<%} %>
 	</div>
