@@ -1,17 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%-- /WEB-INF/include/navbar.jsp --%>   
+<%-- /WEB-INF/include/navbar.jsp --%>
 <%
 	//navbar.jsp 페이지가 어떤 페이지에 include 되었는지 파라미터 읽어오기
-	String thisPage=request.getParameter("thisPage"); //여기에 전달되는 문자열은 index, member, book 이 된다.
+	String thisPage=request.getParameter("thisPage");// "index" or "member" or "book"
+	//로그인된 userName 이 있는지 읽어와 본다
+	String userName=(String)session.getAttribute("userName");
 %>
-
- 
 	<!-- (필수기능!)반응형 페이지: Navigation-bar 최상단이 화면의 폭에 따라서, 레이아웃이 변경되도록 하는 것. 따라서, 폭이 줄어들면 레이아웃이 메뉴바(셋삼표시) 안으로 숨겨지기도 함) -->
 	<!-- bg=background bg-primary: 파랑, success: 초록, warning:노랑, danger:빨강 -->
 	<!-- fixed-top : navibar 상단에 고정 & head 안에 <style> body{ padding-top: 60px } 넣기  -->
 	<!-- data-bs-theme="dark" 해당 속성 추가/제거: 시인성 좋도록 글씨 흰색/검정색 적용. 따라서, 배경색이 어두울 경우, 시인성이 좋아지도록 하얀 글씨로 되게 입력 <-> 반대로 밝은색 계열은 data-bs-theme="dark"를 지우면 됨 -->
-	<nav class="navbar navbar-expand-md bg-primary-subtle" data-bs-theme="dark">
+	<nav class="navbar navbar-expand-md bg-success" data-bs-theme="dark">
 		<div class="container">
 			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Acorn</a>
 			<button class="navbar-toggler" type="button"
@@ -19,14 +19,51 @@
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav">
+				<%-- me-auto == margin-end=auto; 오른쪽마진,  ms = 왼쪽마진, mt = 상단마진, mb = 하단마진  --%>
+				<ul class="navbar-nav me-auto">
 					<li class="nav-item">
-						<a class="nav-link <%= thisPage.equals("member") ? "active":"" %>" href="${pageContext.request.contextPath }/member/list.jsp">Member</a>
+						<a class="nav-link <%=thisPage.equals("member") ? "active":""%>" href="${pageContext.request.contextPath }/member/list.jsp">Member</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link <%= thisPage.equals("book") ? "active":"" %>" href="${pageContext.request.contextPath }/book/list.jsp">Book</a>
+						<a class="nav-link <%=thisPage.equals("book") ? "active":""%>" href="${pageContext.request.contextPath }/book/list.jsp">Book</a>
 					</li>
 				</ul>
+	            <!-- 오른쪽 사용자 메뉴 -->
+	            <ul class="navbar-nav">
+                <%if (userName == null) {%>
+	                <li class="nav-item">
+	                    <a class="btn btn-outline-light btn-sm me-2"
+	                       href="${pageContext.request.contextPath }/user/loginform.jsp">로그인</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="btn btn-warning btn-sm"
+	                       href="${pageContext.request.contextPath }/user/signup-form.jsp">회원가입</a>
+	                </li>
+                <%}else {%>
+	                <li class="nav-item  me-2">
+					    <a class="nav-link  p-0"
+					       href="${pageContext.request.contextPath}/user/info.jsp">
+					        <strong><%= userName %></strong>
+					    </a>
+					</li>
+	                <li class="nav-item me-2">
+	                    <span class="navbar-text">Signed in</span>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="btn btn-danger btn-sm"
+	                       href="${pageContext.request.contextPath }/user/logout.jsp">로그아웃</a>
+	                </li>
+                <%}%>
+                </ul>
 			</div>
 		</div>
 	</nav>
+	
+	
+	
+	
+	
+	
+	
+	
+	
