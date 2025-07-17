@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpSession;
 
 //들어오는 모든 요청에 대해 필터링을 하겠다는 의미
 @WebFilter("/*")
-//SecurityFilter - add implements
+//SecurityFilter - add implements 
 public class SecurityFilter implements Filter {
 	//로그인 없이 접근 가능한 경로 목록 (을 Set 로 whiteList 만들면 중복도 제거되고, 빠르게 엑세스 가능)
 	//프로젝트에선 Set<String> whiteList = Set.of( ); 에서 ()괄호 안의 내용만 추가/변경하면 됨
@@ -27,7 +27,7 @@ public class SecurityFilter implements Filter {
 			"/index.jsp",
 			"/user/loginform.jsp","/user/login.jsp",
 			"/user/signup-form.jsp","/user/signup.jsp",
-			"/images/" //,"/member/"
+			"/images/", "/upload/" //,"/member/"
 	);
 
 	@Override

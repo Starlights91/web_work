@@ -4,13 +4,16 @@
   <welcome-file-list>
 <!--     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file> -->
+    
     <welcome-file>index.jsp</welcome-file>
+    
 <!-- 
     <welcome-file>index.xhtml</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.xhtml</welcome-file> -->
+    
   </welcome-file-list>
   
 	<resource-ref>
@@ -20,4 +23,9 @@
 	 <res-auth>Container</res-auth>
 	</resource-ref>
 
+	<context-param>
+		<description>업로드된 파일을 저장할 경로</description>
+		<param-name>fileLocation</param-name>
+		<param-value>/Users/minaoh/playground/upload</param-value>
+	</context-param>
 </web-app>

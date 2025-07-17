@@ -5,7 +5,7 @@
 	String url=request.getParameter("url");
 	//만일 넘어오는 값이 없다면
 	if(url==null){
-		//로그인 후에 인덱스 페ㅣ지로 갈수 있도록 한다.
+		//로그인 후에 인덱스 페이지로 갈수 있도록 한다.
 		String cPath=request.getContextPath();
 		url=cPath+"/index.jsp";
 	}
