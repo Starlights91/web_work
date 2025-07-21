@@ -11,7 +11,7 @@
 	<!-- bg=background bg-primary: 파랑, success: 초록, warning:노랑, danger:빨강 -->
 	<!-- fixed-top : navibar 상단에 고정 & head 안에 <style> body{ padding-top: 60px } 넣기  -->
 	<!-- data-bs-theme="dark" 해당 속성 추가/제거: 시인성 좋도록 글씨 흰색/검정색 적용. 따라서, 배경색이 어두울 경우, 시인성이 좋아지도록 하얀 글씨로 되게 입력 <-> 반대로 밝은색 계열은 data-bs-theme="dark"를 지우면 됨 -->
-	<nav class="navbar navbar-expand-md bg-success" data-bs-theme="dark">
+	<nav class="navbar navbar-expand-md bg-primary-subtle" data-bs-theme="dark">
 		<div class="container">
 			<a class="navbar-brand" href="${pageContext.request.contextPath }/">Acorn</a>
 			<button class="navbar-toggler" type="button"
@@ -27,6 +27,9 @@
 					<li class="nav-item">
 						<a class="nav-link <%=thisPage.equals("book") ? "active":""%>" href="${pageContext.request.contextPath }/book/list.jsp">Book</a>
 					</li>
+					<li class="nav-item">
+						<a class="nav-link <%=thisPage.equals("board") ? "active":""%>" href="${pageContext.request.contextPath }/board/list.jsp">Board</a>
+					</li>					
 				</ul>
 	            <!-- 오른쪽 사용자 메뉴 -->
 	            <ul class="navbar-nav">

@@ -16,10 +16,10 @@
 	
 	//totalPageCount, PAGE_ROW_COUNT, PAGE_DISPLAY_COUNT 이 3가지를 계산해서 표시(한줄 한줄의 의미&원리 이해하기)
 	//한 페이지에 몇개씩 표시할 것인지
-	final int PAGE_ROW_COUNT=10;
+	final int PAGE_ROW_COUNT=5;
 	
 	//하단 페이지를 몇개씩 표시할 것인지
-	final int PAGE_DISPLAY_COUNT=3;
+	final int PAGE_DISPLAY_COUNT=5;
 
 	//보여줄 페이지의 시작 ROWNUM (일반식=글의 갯수 고려하지 않음.)
 	int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT; //공차수열
@@ -55,8 +55,27 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/board/list.jsp</title>
+<title>/board/list2.jsp</title>
+<style>
+	ul a{
+		text-decoration: none;
+	}
+	/* ul 요소이면서 클래스 속성의 값이 pagination 인 요소에 적용할 css */
+	ul.my-pagination{
+		list-style-type: none; /* ul 의 disc 없애기 */
+		padding-left: 0; /* 왼쪽 padding 제거 */
+		display: flex; /* 자식요소(li)를 flex 레이아웃으로 배치 하기 위해(가로배치) default=가로.  */
+		gap: 10px; /* 자식요소 끼리 10px 공간 부여하기 */
+ 		justify-content: center; /* 현재는 가로로 배치된 상태에서 (축이 가로/세로에 따라서) 가운데 정렬 */
+	}
+	
+	.active{
+		font-weight: bold;
+		color: red;
+		text-decoration: underline;
+	}
 
+</style>
 <jsp:include page="/WEB-INF/include/resource.jsp"></jsp:include>
 </head>
 <body>
@@ -93,25 +112,25 @@
          </tbody>
       </table>
       
-      <ul class="pagination">
+      <ul class="my-pagination">
       	<%-- startPageNum 이 1이 아닐때 이전 page 가 존재하기 때문에... --%>
       	<%-- prev 링크를 조건부로 출력 --%>
       	<%if(startPageNum != 1 ){ %>
-   			<li class="page-item">
-      			<a class="page-link" href="list.jsp?pageNum=<%=startPageNum-1 %>">&lsaquo;</a>
+   			<li>
+      			<a href="list.jsp?pageNum=<%=startPageNum-1 %>">&lsaquo;</a>
       		</li>   	   	
       	<%} %>
       	<%-- page 번호를 반복문 돌면서 출력 --%>
       	<%for(int i=startPageNum; i<=endPageNum; i++){ %>
-      		<li class="page-item">
-      			<a class="page-link <%= i==pageNum ? "active":"" %>" href="list.jsp?pageNum=<%=i%>"><%=i %></a>
+      		<li>
+      			<a class="<%= i==pageNum ? "active":"" %>" href="list.jsp?pageNum=<%=i%>"><%=i %></a>
       		</li>
       	<%} %>
       	<%-- endPageNum 이 totalPageCount 보다 작을때 다음 page 가 있다--%> 
       	<%-- next 링크를 조건부로 출력 --%>
       	<%if(endPageNum < totalPageCount ){ %>
-      		<li class="page-item">
-      			<a class="page-link" href="list.jsp?pageNum=<%=endPageNum+1 %>">&rsaquo;</a>
+      		<li>
+      			<a href="list.jsp?pageNum=<%=endPageNum+1 %>">&rsaquo;</a>
       		</li>      	
       	<%} %>
       </ul>
