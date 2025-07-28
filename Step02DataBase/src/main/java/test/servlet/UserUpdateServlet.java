@@ -19,7 +19,7 @@ import test.dto.UserDto;
 /*
  *	enctype ="multipart/form-data" 형식의 폼이 전송되었을때 처리할 서블릿 만들기 
  */
-@WebServlet("/user/update")
+@WebServlet("/admin/user/update")
 @MultipartConfig(
 		fileSizeThreshold = 1024*1024*10, //업로드 처리하기 위한 메모리 사이즈(10 Mega byte)  1kb가 1024개 있음 *10 = 10mb
 		maxFileSize = 1024*1024*50, //업로드되는 최대 파일 사이즈(50 Mega byte)
