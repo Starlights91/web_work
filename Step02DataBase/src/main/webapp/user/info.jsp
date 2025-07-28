@@ -37,7 +37,7 @@
 				<th>프로필 이미지</th>
 				<td>
 					<%if(dto.getProfileImage() == null){ %>
-						<i style="font-size:50px;" class="bi bi-person-circle"></i>
+						<i style="font-size:50px;" class="bi bi-person-circle me-3 align-self-center"></i>
 					<%}else{ %>
 						<%-- 이 위치에 /Step02DataBase/upload/xxxx.png 가 출력되는 것 --%>
 						<img src="${pageContext.request.contextPath }/upload/<%=dto.getProfileImage() %>"
