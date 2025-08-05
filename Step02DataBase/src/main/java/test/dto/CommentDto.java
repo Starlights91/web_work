@@ -10,6 +10,17 @@ public class CommentDto {
 	private String deleted;
 	private String createdAt;
 	private String profileImage; //프로필 이미지를 출력하기 위한 필드
+	//대댓글의 갯수를 저장하기 위한 필드
+	private int replyCount;
+	
+	// setter & getter (getr & setr + ctrl + space)
+	public int getReplyCount() {
+		return replyCount;
+	}
+	
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 	
 	
 	// generate setter & getter 

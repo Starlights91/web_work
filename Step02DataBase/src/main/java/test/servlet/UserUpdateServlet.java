@@ -43,19 +43,19 @@ public class UserUpdateServlet extends HttpServlet {
 	
 	
 	
-	//doPost 방식 전송되었을때 호출 되는 메소드
+	//doPost 방식 전송되었을때 호출 되는 메소드 (doPost 방식= doPost방식만, doGet 방식= doGet방식만, service 는 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		//폼 전송되는 내용 추출
 		String userName=req.getParameter("userName");
 		String email=req.getParameter("email");
-		//파일데이터 (<input type="file" name="profileImage">)
+		//파일데이터 (<input type="file" name="profileImage">) Part 타입 객체로 req.getPart("profileImage"); 작업하는 부분 이해하기.
 		Part filePart=req.getPart("profileImage");
 		//DB 에서 사용자 정보를 불러온다.
 		UserDto dto=UserDao.getInstance().getByUserName(userName);
 		
 		//만일 업로드된 프로필 이미지가 있다면 (수정하지 않았으면 없다)
-		if(filePart!=null && filePart.getSize() > 0) {
+		if(filePart !=null && filePart.getSize() > 0) {
 			//원본 파일의 이름 얻어내기 ex. Switzerland.jpg
 			String orgFileName=filePart.getSubmittedFileName();
 			//파일명이 겹치지 않게 랜덤한 id 값 얻어내기 ex. aksjdkjdkjdn ...

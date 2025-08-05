@@ -1,4 +1,23 @@
 
+CREATE TABLE gallery(
+	num NUMBER PRIMARY KEY,   -- 사진 1개 이상 여러개 올릴 수 있다
+	title VARCHAR2(100) NOT NULL, -- 제목
+	writer VARCHAR2(20) NOT NULL, -- 업로더
+	content CLOB,				  -- 내용 설명
+	createdAt DATE DEFAULT SYSDATE
+);
+-- gallery 테이블은 board_seq 를 공유하기
+
+CREATE TABLE gallery_image(
+	num NUMBER PRIMARY KEY,
+	gallery_num NUMBER REFERENCES gallery(num),  -- 여기 gallery(num)1 이 되어야 함
+	saveFileName VARCHAR2(100) NOT NULL,		 -- 업로드된 사진의 저장된 파일명. 만일 사진이 여러개라면 동일한 gallery_num 으로 여러개의 row 가 saveFileName 에 저장된다. 
+	createdAt DATE DEFAULT SYSDATE
+);
+
+CREATE SEQUENCE gallery_image_seq;
+
+
 CREATE TABLE comments(
 	num NUMBER PRIMARY KEY, -- 댓글의 글번호 
 	writer VARCHAR2(20) NOT NULL, -- 작성자 

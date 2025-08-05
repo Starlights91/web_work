@@ -12,4 +12,4 @@
 		<p>role 이 <strong>ROLE_STAFF</strong> 인 사용자만 이페이지를 볼수 있습니다.</p>
 	</div>
 </body>
-</html>
+</html>        	
