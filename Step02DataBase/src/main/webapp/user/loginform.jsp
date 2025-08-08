@@ -19,7 +19,7 @@
 		for(Cookie tmp: cooks){
 			//저장된 키값을 읽어온다.
 			String key=tmp.getName();
-			//만일 키값이 savedUserName 라면
+			//만일 키값이 savedUserName 라면 (내가 찾는 username 이 맞다면)
 			if(key.equals("savedUserName")){
 				//쿠키 value 값을 savedUserName 라는 지역변수에 저장
 				savedUserName=tmp.getValue();

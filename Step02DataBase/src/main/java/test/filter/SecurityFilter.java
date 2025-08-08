@@ -25,10 +25,10 @@ public class SecurityFilter implements Filter {
 	//프로젝트에선 Set<String> whiteList = Set.of( ); 에서 ()괄호 안의 내용만 추가/변경하면 됨
 	Set<String> whiteList = Set.of(
 			"/index.jsp",
-			"/user/loginform.jsp","/user/login.jsp",
+			"/user/loginform.jsp","/user/login.jsp", "/user/check-id.jsp",
 			"/user/signup-form.jsp","/user/signup.jsp",
 			"/images/", "/upload/", "/board/list.jsp", "/board/view.jsp","/test",
-			"/gallery/list.jsp" //,"/member/"
+			"/gallery/list.jsp"  //,"/member/"
 	);
 
 	@Override
