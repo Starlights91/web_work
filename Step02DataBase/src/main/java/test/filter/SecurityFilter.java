@@ -91,7 +91,11 @@ public class SecurityFilter implements Filter {
     // 화이트리스트 검사
     private boolean isWhiteList(String path) {
     	//만일 최상위 경로 요청이면 허용
-        if ("/".equals(path)) return true;  
+        if ("/".equals(path)) return true; 
+        
+        //에러 페이지 (에러페이지 열리면 허용)
+        if(path.startsWith("/error")) return true;
+        
         //반복문 돌면서 모든 whiteList 를 불러내서
         for (String prefix : whiteList) {
         	//현재 요청경로와 대조한다
