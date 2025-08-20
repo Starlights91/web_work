@@ -10,12 +10,12 @@ import test.dto.BoardDto;
 import test.util.DbcpBean;
 
 public class BoardDao {
-	// 자신의 참조값을 저장할 static 필드
+	// 자신의 참조값을 저장할 static 필드 (BoardDao 타입으로 dao 라는 필드(변수)명을 
 	private static BoardDao dao;
 	// static 초기화 블럭에서 객체 생성해서 static 필드에 저장
 	static {
 		dao = new BoardDao();
-	}
+		}
 	// 외부에서 객체 생성하지 못하도록 생성자의 접근 지정자를 private 로 지정
 	private BoardDao() {}
 	// 참조값을 리턴해주는 static 메소드 제공

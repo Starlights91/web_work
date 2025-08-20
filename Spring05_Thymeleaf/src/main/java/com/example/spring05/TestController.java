@@ -1,0 +1,87 @@
+package com.example.spring05;
+
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class TestController {
+	
+	@GetMapping("/print-num")
+	public String printNum(Model model) {
+		
+		//테스트를 위해 데이터 전달
+		model.addAttribute("start", 6);
+		model.addAttribute("end", 10);
+		
+		return "print-num";
+	}
+	
+	@GetMapping("/include-test")
+	public String includeTest(Model model) {
+		//테스트를 위한 데이터 전달
+		model.addAttribute("title", "오늘의 운세");
+		model.addAttribute("content", "동쪽으로 가면 귀인을 만나요");
+		return "include-test";
+	}
+	
+	/*
+	 * 	컨트롤러의 메소드에 UserDto 를 선언하면 폼 전송되는 파라미터가 자동으로 추출되어서
+	 * 	UserDto 의 필드에 담긴채로 전달된다.
+	 * 
+	 * 	@ModelAttribute 어노테이션을 이용하면 view page 에서 해당객체에 담긴값을 활용할 수 있다.
+	 * 	
+	 */
+	@PostMapping("/save")
+	public String save(@ModelAttribute("dto") UserDto dto) { // @ModelAttribute("dto") UserDto dtoUserDto => "dto"는 key 값 ,  // UserDto 로 form 전송되는 파라미터가 담겨있다.
+		
+		return "save";
+	}
+	
+	@GetMapping("/form")
+	public String form() {
+		
+		return "form";
+	}
+	
+	@GetMapping("/if")
+	public String ifTest(Model model) {
+		
+		//view page 에서 if 문을 테스트할 값을 Model 객체에 담기 (key,value)
+		model.addAttribute("score", 75);
+		model.addAttribute("age", 25);
+		model.addAttribute("role", "staff");
+		
+		return "if";
+	}
+	
+	
+	@GetMapping("/member/list")
+	public String memberList(Model model) {
+		// DTO 객체 생성 (Builder 패턴 사용)
+		MemberDto dto1=MemberDto.builder().num(1).name("짱아1").addr("파주").build();
+		MemberDto dto2=MemberDto.builder().num(2).name("짱구2").addr("일산").build();
+		MemberDto dto3=MemberDto.builder().num(3).name("흰둥이3").addr("인천").build();
+		List<MemberDto> list=List.of(dto1, dto2, dto3);
+		//응답에 필요한 데이터를 Model 객체에 담는다. #m model에 list 저장 → View에서 ${list}로 접근 가능
+		model.addAttribute("list", list);
+		// /templates/member/list.html Thymeleaf 페이지로 응답하기
+		return "member/list";
+	}
+	
+	@GetMapping("/member/detail")
+	public String memberDetail(Model model) {
+		// DB에서 불러온 회원 한명의 정보라고 가정하자
+		MemberDto dto=MemberDto.builder().num(1).name("김구").addr("강동구").build();
+		// 응답에 필요한 정보를 Model 객체에 담는다
+		model.addAttribute("dto", dto);
+		
+		// /templates/member/details.html Thymeleaf 페이지로 응답하기
+		return "member/detail";
+	}
+
+}

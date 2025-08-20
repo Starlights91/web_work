@@ -32,7 +32,7 @@
 	//보여줄 페이지의 시작 ROWNUM
 	int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT; //공차수열
 	//보여줄 페이지의 끝 ROWNUM
-	int endRowNum=pageNum*PAGE_ROW_COUNT; //등비수열 
+	int endRowNum=pageNum*PAGE_ROW_COUNT; //등비수열
 	
 	//하단 시작 페이지 번호 (정수를 정수로 나누면 소수점이 버려진 정수가 나온다)
 	int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT)*PAGE_DISPLAY_COUNT;
@@ -70,13 +70,13 @@
 	dto.setEndRowNum(endRowNum);
 	//글목록 
 	List<BoardDto> list=null;
-	//만일 keyword 가 없아면 
+	//만일 keyword 가 없면 
 	if(StringUtils.isEmpty(keyword)){
 		list = BoardDao.getInstance().selectPage(dto);
 	}else{//있다면
 		// dto 에 keyword 를 담고 
 		dto.setKeyword(keyword);
-		// 키워드에 해당하는 글 목록을 얻어낸다 
+		// 키워드에 해당하는 글 목록을 얻어낸다
 		list = BoardDao.getInstance().selectPageByKeyword(dto);
 	}
 	

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> <!-- th: 속성을 쓰려면 필수 -->
+<head>
+<meta charset="UTF-8">
+<title>/templates/home.html</title> <!-- http://localhost:9000/spring05 에서 확인 -->
+</head>
+<body>
+	<div class="container">
+		<h1 th>인덱스 페이지 입니다</h1>
+		<p>
+			<!-- in JSP: ${personToday} & in Thymeleaf: [[${personToday}]] -->
+			오늘의 인물 : <strong>[[${personToday}]]</strong> 
+			<br />
+			<!-- in JSP: src="/spring05/images/UK.png" & in Thymeleaf: th:src="@{/images/UK.png}" -->
+			<img src="/spring05/images/UK.png" alt="영국 국가 이미지" />
+			<img th:src="@{/images/UK.png}" alt="영국 국가 이미지" />
+		</p>
+		
+		<h2>공지사항</h2>
+		<ul>
+			<!-- in JSP: <c:forEach var="tmp" items="${notice}" ><li>${tmp}</li></c:forEach>  &  in Thymeleaf: [[${tmp}]] --> 
+			<li th:each="tmp : ${notice}">[[${tmp}]]</li>
+		</ul> 
+		
+		<h3>Thymeleaf 연습</h3>
+		<ul>
+			<li><a th:href="@{/member/detail}">회원 한명의 정보</a></li>
+			<li><a th:href="@{/member/list}">회원목록 보기</a></li>
+			<li><a th:href="@{/if}">조건부 렌더링</a></li>
+			<li><a th:href="@{/form}">form 테스트</a></li>
+			<li><a th:href="@{/include-test}">include 테스트</a></li>
+			<li><a th:href="@{/print-num}">반복문 돌면서 숫자 출력</a></li>
+			
+			
+		</ul>	
+	</div>
+</body>
+</html>

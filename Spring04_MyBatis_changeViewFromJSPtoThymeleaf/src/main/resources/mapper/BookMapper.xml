@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="book"> 
+<!-- namespace="static.BookMapper" ->  mapper namespace="book" 으로 바꿔야 -->
+<!-- DAO에서 "static.BookMapper.selectAll"이 아니라 "book.selectAll" 으로 사용 가능 -->
+
+<!--  (실행할 sql 문을 여기에 작성: select(selectAll, getByNum), delete, update, insert>selectKey  -->
+
+	<!-- resultType="com.example.spring04.dto.BookDto" 을 "bookDto" 로 BookDto 클래스에서 정한 별칭으로 불러서 사용 가능 -->
+	<!-- BookDto 클래스에서 @Alias("bookDto") 로 설정한 type 의 별칭을 사용할 수 있다.-->
+	<!-- 여러 권의 책 정보 조회 -->
+	<select id="selectAll" resultType="bookDto">
+		SELECT num, title, author, publisher
+		FROM book
+		ORDER BY num ASC
+	</select>
+	
+	<!-- 한권의 책 정보 조회-->
+	<select id="getByNum" parameterType="int" resultType="bookDto">
+		SELECT num, title, author, publisher
+		FROM book
+		WHERE num=#{num}
+	</select>
+	
+	<!-- 특정 번호의 책 삭제 -->
+	<delete id="delete" parameterType="int" > <!--BookMapper.xml의 ID="delete" 와 BookDaoImpl.java의 session.delete("book.delete",num) 이 일치해야 작동된다.  -->
+		DELETE FROM book
+		WHERE num=#{num}
+	</delete>
+	
+	<!-- 특정 번호의 책 수정 -->
+	<update id="update" parameterType="bookDto">
+		UPDATE book
+		SET title=#{title}, author=#{author}, publisher=#{publisher}
+		WHERE num=#{num}
+	</update>
+	
+	<!-- selectKey 를 이용하면 insert 전에 pk 값을 order="BEFORE"로 미리 얻어내서 BookDto 객체에 담을수 있다.
+		keyProperty="num" 여기에서 num 과 BookDto 의 필드명과 일치하면 된다. -->
+	<insert id="insert" parameterType="bookDto">
+		<!-- selectKey 에 미리 얻어낸 시퀀스 값을 num 으로 Dto 에 담아서 title, author, publisher 에서 참고 가능 -->
+		<selectKey keyProperty="num" resultType="int" order="BEFORE"> 
+			SELECT book_seq.NEXTVAL FROM DUAL
+		</selectKey>
+		INSERT INTO book
+		(num, title, author, publisher)
+		VALUES(#{num}, #{title}, #{author}, #{publisher})
+	</insert>
+	
+</mapper>	
