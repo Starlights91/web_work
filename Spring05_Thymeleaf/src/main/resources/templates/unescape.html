@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/unescape.html</title>
+</head>
+<body>
+	<div class="container">
+		<h3>목록 입니다</h3>
+		<div>[[${content}]]</div>
+		<h3>목록 입니다2</h3>
+		<div th:text="${content}"></div>
+		
+		<!--/* unescape 된 text가 출력되길 원하면 아래와 같이 작성. 내가 출력원하는 내용 그대로 마크업 규칙에 맞게 출력 된다.  */-->
+		<h3>목록 입니다3</h3>
+		<div>[(${content})]</div>
+		<h3>목록 입니다4</h3>
+		<div th:utext="${content}"></div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/gallery/upload.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>이미지 업로드 결과</h1>
+		<p>
+			설명 : <strong th:text="${caption}"></strong>
+		</p>
+		<p>
+			저장된 파일명 : <strong th:text="${saveFileName}"></strong>
+		</p>
+		<img src="/spring06/upload/xxx.png}" />
+		<br />
+		<img th:src="@{'/upload/' + ${saveFileName}}" /> <!--/*  ''싱글따옴표로 문자열로 쓰고 + ${saveFileName}}" 하 -> 결과 동일: <img src="spring06/upload/xxx.png}" /> */-->
+		<br />
+		<img th:src="@{/upload/{fileName}(fileName=${saveFileName})}"/> 
+		<!--/* {fileName} == 동적으로 구성할수 있는 fileName 이라는 경로 변수를 선언하고  */-->
+		<!--/* (fileName=${saveFileName}) == fileName 경로 변수에 값 전달 */-->
+	</div>
+</body>
+</html>
