@@ -60,6 +60,7 @@ public class MemberController {
 		//dao.deleteByNum(num);
 		service.deleteMember(num);
 		
+		// return "redirect:/member/list";
 		return "member/delete1";
 	}
 	
