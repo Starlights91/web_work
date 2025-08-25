@@ -3,8 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <title>/templates/home.html</title>
+<!--/* 
+	/include/resource.html 페이지 안에 있는 bootstrap 이라는 이름의 조각을 여기에 insert 하기
+ */-->
+<th:block th:insert="/include/resource :: bootstrap"></th:block>
 </head>
 <body>
+	<!--/* index 페이지에서 navbar 를 include 했다는 의미에서 nav() 에 'index' 전달 */-->
+	<th:block th:insert="/include/navbar :: nav('index')"></th:block>
 	<div class="container">
 		
 		<div sec:authorize="isAuthenticated()">

@@ -6,6 +6,7 @@
 		num, userName, password, email, profileImage, role, updatedAt, createdAt
 	</sql>
 
+	<!-- if문: MyBatis 의 동적 sql 문 에 #{profileImage} 은 null이 아닌 경우에 실행할 sql 문 -->
 	<update id="update" parameterType="com.example.spring08.dto.UserDto">
 		UPDATE users
 		SET email=#{email}, updatedAt=SYSDATE
@@ -15,7 +16,7 @@
 
 	<update id="updatePassword" parameterType="com.example.spring08.dto.UserDto">
 		UPDATE users
-		SET password=#{newPassword}
+		SET password=#{password}
 		WHERE userName=#{userName}
 	</update>
 

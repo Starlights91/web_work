@@ -15,6 +15,6 @@ public class HomeController {
 		//응답에 필요한 정보를 Model 객체에 담고
 		model.addAttribute("notice", notice);
 		//Thymeleaf 템플릿 페이지에서 응답하기 
-		return "home";
+		return "home"; //  /templates/home.html 을 가르키는것
 	}
 }

@@ -1,13 +1,23 @@
 package com.example.spring08.controller;
 
+import java.util.Map;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.spring08.dto.PwdChangeRequest;
 import com.example.spring08.dto.UserDto;
 import com.example.spring08.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Controller // MVC 컨트롤러(뷰 반환)로 등록
@@ -15,7 +25,71 @@ import lombok.RequiredArgsConstructor;
 public class UserController {  // 사용자 인증 관련 뷰를 제공하는 컨트롤러
 		
 		private final UserService service;
-	
+		
+		@PostMapping("/user/update")
+		public String update(UserDto dto) { //userDto dto UserName profileFile
+			//서비스를 이용해서 개인 정보를 수정하고
+			service.updateUser(dto);
+			//개인정보 자세히 보기로 리다일렉트 이동한다.
+			return "redirect:/user/info";
+		}
+		
+		
+		@GetMapping("/user/edit")
+		public String userEdit(Model model) {
+			//로그인된 userName
+			String userName = SecurityContextHolder.getContext().getAuthentication().getName(); 
+			//#m 서비스가 UserDto 를 읽어와서 userName을 담는다.
+			UserDto dto = service.getUser(userName);
+			//응답에 필요한 정보를 Model 객체에 담기
+			model.addAttribute("dto", dto);
+			//타임리프 view page 에서 회원정보 수정 폼을 응답
+			return "user/edit";
+		}
+		
+		
+		//사용가능한 아이디 인지 여부를 json 문자열로 리턴하는 메소드  (/test/
+		@GetMapping("/user/check-id")
+		@ResponseBody
+		public Map<String, Object> checkId(String inputId){
+			
+			return service.canUseId(inputId);
+		}
+		
+		
+		//비밀번호 수정 반영 요청처리
+		@PostMapping("/user/update-password")
+		public String updatePassword(PwdChangeRequest pcr, HttpSession session,
+				HttpServletRequest req, HttpServletResponse res) {
+			//pcr 객체에는 기존 비밀번호와 새 비밀번호가 들어 있다.
+			service.updatePassword(pcr);
+			//세션을 초기화해서 로그아웃 처리를 한다
+			session.invalidate();
+			
+			//Security Logout Handler 객체를 이용해서 강제 로그아웃
+			new SecurityContextLogoutHandler()
+				.logout(req, res, SecurityContextHolder.getContext().getAuthentication());
+			
+			return "user/update-password"; //#m 에러가 없으면 update-password 뷰페이지로 넘어간다.
+		}
+		
+		@GetMapping("/user/edit-password")
+		public String editPassword() {
+			return "user/edit-password";
+		}
+		
+		@GetMapping("/user/info")
+		public String userInfo(Model model) {
+			//로그인된 userName
+			String userName = SecurityContextHolder.getContext().getAuthentication().getName();
+			//서비스 객체를 이용해서 사용자 정보를 얻어와서
+			UserDto dto=service.getUser(userName);
+			//Model 객체에 담은 다음
+			model.addAttribute("dto", dto);
+			//타임리프 템플릿 페이지에서 응답한다.
+			return "/user/info";
+		}
+		
 		//회원 가입 요청 처리
 		@PostMapping("/user/signup")
 		public String signup(UserDto dto) { //signup-form.html 의 input name 

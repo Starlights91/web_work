@@ -32,16 +32,18 @@ public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHa
 			Authentication authentication) throws ServletException, IOException {
 		//세션 유지 시간 설정
     	HttpSession session=request.getSession();
-        session.setMaxInactiveInterval(60);//초단위로 설정
+        session.setMaxInactiveInterval(60*30);//초단위로 설정 (60=60초, 60*30=30분)
         
         //Authentication 객체의 메소드를 이용해서 지금 로그인된 사용자에 대한 자세한 정보를 얻어낼수 있다.
         String userName=authentication.getName();
         System.out.println("로그인된 사용자:"+userName);
+        //HttpSession 객체에 로그인된 사용자의 userName 을 담아 놓기
+        session.setAttribute("userName", userName); //${#session.userName} 으로 참조 할 수 있다.
 		
 		//3. 로그인 성공이후 미리 저장된 요청이 있었는지 읽어와서
     	SavedRequest cashed=requestCache.getRequest(request, response);
     	
-    	//4. 만일 미리 저장된 요청이 없다면 (로그인 하지 않은 상태로 인증이 필요한 경로를 요청하지 않았다면)
+    	//4. (분기처리 되어 있음)만일 미리 저장된 요청이 없다면 (로그인 하지 않은 상태로 인증이 필요한 경로를 요청하지 않았다면)
         if(cashed==null) {
         	//5. 로그인 환영 페이지로 foward 이동 (POST 방식 요청임에 주의!!!)
         	RequestDispatcher rd=request.getRequestDispatcher("/user/login-success");
