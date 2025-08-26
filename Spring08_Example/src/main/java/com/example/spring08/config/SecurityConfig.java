@@ -26,7 +26,7 @@ public class SecurityConfig { //보안설정 담는 구성 클래스 시작
 		// security 를 통과하는 white list
 		String[] whiteList = {"/", "/user/loginform", "/user/login-fail", 
 				"/user/expired", "/user/signup-form", "/user/signup", 
-				"/test/**", "/user/check-id"};
+				"/test/**", "/user/check-id", "/board/list", "/board/view", "/upload/**"};
 		
 		//#m 는 함수표현식으로 한줄 코딩인것. (#m 체이닝으로 보안 설정 시작)
 		httpSecurity
