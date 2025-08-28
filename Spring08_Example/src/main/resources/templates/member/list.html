@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+			xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>/templates/member/list.html</title>
+<th:block th:insert="~{/include/resource :: bootstrap}"/>
+</head>
+<body>
+<th:block th:insert="~{/include/navbar :: nav('member')}"/>
+	<div class="container">
+		<a th:href="@{/member/insertform}" class="">회원추가</a>
+		<h1>회원 목록입니다</h1>
+		<!-- 추가, 수정, 삭제 완료 시 나타나는 메세지 창 -->
+		<p th:if="${message}" class="alert alert-success p3">[[${message}]]</p>
+		
+		<table class="table table-striped">
+	   		<thead class="table-dark">
+		   		<tr>
+	    			<th>번호</th>
+	    			<th>이름</th>
+	    			<th>주소</th>
+	    			<th>수정</th>
+	    			<th>삭제</th>
+	   			</tr>
+	   		</thead>
+	   		<tbody>
+	   			<tr th:each="tmp : ${list}">
+	   			<td>[[${tmp.num}]]</td>
+	   			<td>[[${tmp.name}]]</td>
+	   			<td>[[${tmp.addr}]]</td>
+	   			<td><a th:href="@{/member/updateform(num=${tmp.num})}" class="button update-button">수정</a></td>
+	   			<td><a href="javascript:" class="delete-link" th:attr="data-num=${tmp.num}">삭제</a></td>
+	   			</tr>
+	   		</tbody>
+		</table>
+	</div>
+	<script>
+		// querySelectorAll()은 배열이므로 직접 .addEventListener를 할 수없다.
+		document.querySelectorAll(".delete-link").forEach(item=>{
+			item.addEventListener("click", (e)=>{
+				// e.target 은 이벤트가 발생한 바로 그 요소의 참조값이다
+				// "click" 이벤트가 발생한 a 요소에 data-num 속성의 value 를 읽어오기
+				const num=e.target.getAttribute("data-num");
+				const isDelete=confirm(num+" 번 회원을 삭제 하시겠습니까?");
+				if(isDelete){
+					// delete.jsp 페이지로 이동하게 하면서 삭제할 회원의 번호도 같이 전달 되도록 한다.
+					location.href="[[@{/member/delete?num=}]]"+num;				
+				}
+			});
+		});
+	</script>
+</body>
+</html>

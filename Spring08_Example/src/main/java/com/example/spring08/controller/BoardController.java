@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.spring08.dto.BoardDto;
 import com.example.spring08.dto.BoardListResponse;
@@ -22,6 +23,35 @@ import lombok.RequiredArgsConstructor;
 public class BoardController {
 	private final BoardService service;
 	
+	
+	//#m 여기 3개는 board 게시글 관련 
+	@PostMapping("/board/update")
+	public String boardUpdate(BoardDto dto, RedirectAttributes ra) {
+		//글 수정 반영하고
+		service.updateContent(dto);
+		//리다일렉트 이동해서 출력할 메세지도 담는다.
+		ra.addFlashAttribute("message", "게시글을 성공적으로 수정했습니다");
+		// 글 자세히 보기로 리다일렉트 이동
+		return "redirect:/board/view?num="+dto.getNum();
+	}
+	
+	
+	@GetMapping("/board/edit")
+	public String boardEdit(int num, Model model) {
+		model.addAttribute("dto", service.getData(num));
+		return "/board/edit";
+	}
+	
+	
+	@GetMapping("/board/delete")
+	public String boardDelete(int num) {
+		service.deleteContent(num);
+		return "board/delete";
+	}
+	
+	
+	
+	// 여기 아래부터는 comment 관련: 
 	
 	@PostMapping("/board/comment-update")
 	public String boardUpdate(CommentDto dto) {
@@ -46,14 +76,30 @@ public class BoardController {
 		return "redirect:/board/view?num="+dto.getParentNum();
 	}
 	
-	
+	// #m 조회수 카운트적용을 위한 기존 ("/board/view") 맵핑 수정 (comment + board)
 	@GetMapping("/board/view")
-	public String boardView(int num, Model model) {
+	public String boardView(BoardDto requestDto, Model model) {
+		/*
+		 * requestDto 에는 자세히 보여줄 글의 num 와 
+		 * search (검색조건), keyword (검색어) 가 들어 있을수도 있다.
+		 * 검색어가 없는경우는 search 와 keyword 에는 null 이 들어 있다.
+		 */
+		
 		//서비스를 이용해서 응답에 필요한 데이터를 얻어내서 
-		BoardDto dto=service.getDetail(num);
-		List<CommentDto> comments = service.getComments(num);
+		BoardDto dto=service.getDetail(requestDto);
+		
+		String query="";
+		if(requestDto.getKeyword() != null) {
+			query="&search="+requestDto.getSearch()+"&keyword="+requestDto.getKeyword();
+		}
+		//검색 query 정보도 view page 에 전달한다 
+		model.addAttribute("query", query);
+		
+		
+		//댓글 목록은 원글의 글번호requestDto.getNum()를 전달해서 얻어낸다.
+		List<CommentDto> comments = service.getComments(requestDto.getNum());
 		//모델 객체에 담고 
-		model.addAttribute("dto", dto); //dto 
+		model.addAttribute("dto", dto); // dto 
 		model.addAttribute("commentList", comments); // 댓글목록 
 		System.out.println(comments.size());
 		
@@ -98,9 +144,11 @@ public class BoardController {
 	@GetMapping("/board/list")
 	public String list(Model model, 
 			@RequestParam(defaultValue = "1") int pageNum, 
-			@RequestParam(defaultValue = "") String keyword) { //#m board/list?pageNum=1&keyword=”“ 디폴트 값으로 1 & "" 반문자열 입력되도록
+			BoardDto dto) {
+		//BoardDto 객체에는 keyword 와 search 가 있을수도 있다. (없을 수도 있다 = null)
+		
 		//응답에 필요한 데이터를 얻어내서
-		BoardListResponse listResponse = service.getBoardList(pageNum, keyword);
+		BoardListResponse listResponse = service.getBoardList(pageNum, dto);
 		//모델 객체에 담고
 		model.addAttribute("dto", listResponse); //타임리프에서 글목록: ${listRes.list} 또는 ${dto.list} , 페이지넘: ${listRes.pageNum} 
 

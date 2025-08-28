@@ -25,16 +25,38 @@
 		  </ol>
 		</nav>
 		<h1>게시글 상세보기</h1>
+		<!--/* 
+			th:if="${message !=null}"
+			th:if="${!#strings.isEmpty(message)}"
+			대신에
+			th:if="${message}" 로 사용하면 편리하다
+			만일 message 가 존재한다면 이라고 읽으면 된다.
+		 */-->
+		<p th:if="${message}" class="alert alert-success p-3">[[${message}]]</p>
+		
+		<!--/* 
+			Thymeleaf : view page 에서 요청 파라미터로 전달되었던 값도 추출할 수 있다.
+			${param.파라미터명}
+			${#strings }  는 문자열에 관련된 유틸리티 객체를 활용할 수 있다
+			@{!#strings.isEmpty(param.search)} 는 search 라는 파라미터명으로 전달된값이 있는지 확인한다.
+		 */-->
+		<p th:if="${!#strings.isEmpty(param.search)}" 
+			class="alert alert-info px-3 py-2 rounded-3 shadow-sm">
+			<i class="bi bi-search me-2"></i>
+			<strong>[[${param.search}]]</strong> 조건
+			<strong>[[${param.keyword}]]</strong> 검색 결과 입니다
+		</p>
+		
 		<div class="btn-group mb-2">
 			<a class="btn btn-outline-secondary btn-sm"
 				th:classappend="${dto.prevNum eq 0 ? 'disabled':null}" 
-				th:href="@{/board/view(num=${dto.prevNum})}">
+				th:href="@{|/board/view?num=${dto.prevNum}${query}|}">
 				<i class="bi bi-arrow-left"></i>
 				Prev
 			</a>
 			<a class="btn btn-outline-secondary btn-sm" 
 				th:classappend="${dto.nextNum eq 0 ? 'disabled':null}"
-				th:href="@{/board/view(num=${dto.nextNum})}">
+				th:href="@{|/board/view?num=${dto.nextNum}${query}|}">
 				Next
 				<i class="bi bi-arrow-right"></i>
 			</a>

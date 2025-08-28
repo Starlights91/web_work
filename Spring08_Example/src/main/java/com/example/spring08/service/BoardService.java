@@ -7,14 +7,21 @@ import com.example.spring08.dto.BoardListResponse;
 import com.example.spring08.dto.CommentDto;
 
 public interface BoardService {
-	public BoardListResponse getBoardList(int pageNum, String keyword);
+	public BoardListResponse getBoardList(int pageNum, BoardDto dto);
 	public void createContent(BoardDto dto);
-	public BoardDto getDetail(int num);
-	public List<CommentDto> getComments(int parentNum);
-	//댓글
-	public void createComment(CommentDto dto);
-	public void updateComment(CommentDto dto);
-	public void deleteComment(int num);
+	//글 자세히 보기를 보여주기 위한 서비스 메소드
+	public BoardDto getDetail(BoardDto dto);
+	//게시글: 수정할 글정보를 보여주기 위한 서비스 메소드 
+	public BoardDto getData(int num);
 	
+	//댓글
+	public List<CommentDto> getComments(int parentNum);
+	public void createComment(CommentDto dto); //댓글 저장
+	public void updateComment(CommentDto dto); //댓글 수정
+	public void deleteComment(int num); //댓글 삭제
 		
+	//게시글:
+	public void deleteContent(int num); //게시글 삭제
+	public void updateContent(BoardDto dto); //게시글: 수정
+	
 }

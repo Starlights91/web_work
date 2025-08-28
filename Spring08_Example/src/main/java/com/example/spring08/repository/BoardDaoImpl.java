@@ -23,28 +23,17 @@ public class BoardDaoImpl implements BoardDao {
 		 * 	3. parameterType : BoardDto
 		 * 	4. resultType : BoardDto (select 된 row 하나를 어떤 type 으로 받을지를 결정해 준다)
 		 */
+		// dto 에 keyword 가 있을수도 있고(=해당키워드) 없을 수도 있다(=null). keyword 가 있다면, search 는 "title_content" 제목+내용검색 or "title" 제목검색 or "writer" 작성자검색 
 		return session.selectList("board.selectPage", dto);
 	}
 
-	@Override
-	public List<BoardDto> selectPageByKeyword(BoardDto dto) {
-		return session.selectList("board.selectPageByKeyword", dto);	
-	}
 
 	@Override
-	public int getCount() {
+	public int getCount(BoardDto dto) {
 		// TODO Auto-generated method stub
-		return session.selectOne("board.getCount");
+		return session.selectOne("board.getCount", dto);
 	}
 
-	@Override
-	public int getCountByKeyword(String keyword) {
-		/*
-		 * parameterType : string
-		 * resultType: int
-		 */
-		return session.selectOne("board.getCountByKeyword", keyword);
-	}
 
 	@Override
 	public void insert(BoardDto dto) {
@@ -57,5 +46,30 @@ public class BoardDaoImpl implements BoardDao {
 	public BoardDto getByNum(int num) {
 		return session.selectOne("board.getByNum", num);
 	}
+
+	
+	@Override
+	public BoardDto getByDto(BoardDto dto) {
+		return session.selectOne("board.getByDto", dto);
+	}
+	
+	@Override
+	public int delete(int num) {
+		return session.delete("board.delete", num);
+	}
+
+
+	@Override
+	public int update(BoardDto dto) {
+		return session.update("board.update", dto);
+	}
+
+
+	@Override
+	public void addViewCount(int num) {
+		session.update("board.addViewCount", num);
+		
+	}
+
 
 }

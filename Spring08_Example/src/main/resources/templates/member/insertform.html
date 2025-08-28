@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>/templates/member/insertform.html</title>
+</head>
+<body>
+	<div class="container">
+		<h1>회원 추가 양식</h1>
+		<form th:action="@{/member/save}" method="post"> <!-- /member/save 이 요청을 처리할 controller 메소드를 만들어야 한다. -->
+			<div>
+				<label for="name">이름</label>
+				<input type="text" name="name" id="name"/>
+			</div>
+			<div>
+				<label for="addr">주소</label>
+				<input type="text" name="addr" id="addr"/>
+			</div>
+			<button type="submit">저장</button>
+			<p><a th:href="@{/member/list}">목록</a></p>
+		</form>
+	</div>
+</body>
+</html>
